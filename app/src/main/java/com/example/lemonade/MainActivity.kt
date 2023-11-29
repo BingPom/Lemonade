@@ -56,10 +56,6 @@ fun LemonadeApp(modifier: Modifier = Modifier) {
     var step by remember {
         mutableStateOf(1)
     }
-    var numTapsLemon by remember {
-        mutableStateOf(1)
-    }
-    val rndmTapNum = (2..4).random()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -101,19 +97,24 @@ fun LemonadeApp(modifier: Modifier = Modifier) {
                     buttonFunction = { step++ }
                 )
 //              Tap to squeeze lemon
-                2 -> LemonButton(
-                    image = painterResource(id = R.drawable.lemon_squeeze),
-                    contentDescription = stringResource(id = R.string.tap_lemon_queeze),
-                    buttonText = stringResource(id = R.string.tap_lemon_queeze),
-                    buttonFunction = {
-                        if (numTapsLemon == rndmTapNum) {
-                            numTapsLemon = 1
-                            step++
-                        } else {
-                            numTapsLemon++
-                        }
+                2 -> {
+                    var numTapsLemon by remember {
+                        mutableStateOf( (2..4).random() )   //The user will need to tap between 2 and 4 times
                     }
-                )
+
+                    LemonButton(
+                        image = painterResource(id = R.drawable.lemon_squeeze),
+                        contentDescription = stringResource(id = R.string.tap_lemon_queeze),
+                        buttonText = stringResource(id = R.string.tap_lemon_queeze),
+                        buttonFunction = {
+                            if (numTapsLemon == 1) {
+                                step++
+                            } else {
+                                numTapsLemon--
+                            }
+                        }
+                    )
+                }
 //              Drink the lemonade
                 3 -> LemonButton(
                     image = painterResource(id = R.drawable.lemonade_glass),
