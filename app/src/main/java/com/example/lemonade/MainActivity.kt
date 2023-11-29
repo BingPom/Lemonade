@@ -56,6 +56,10 @@ fun LemonadeApp(modifier: Modifier = Modifier) {
     var step by remember {
         mutableStateOf(1)
     }
+    var numTapsLemon by remember {
+        mutableStateOf(1)
+    }
+    val rndmTapNum = (2..4).random()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -102,8 +106,11 @@ fun LemonadeApp(modifier: Modifier = Modifier) {
                     contentDescription = stringResource(id = R.string.tap_lemon_queeze),
                     buttonText = stringResource(id = R.string.tap_lemon_queeze),
                     buttonFunction = {
-                        if ((1..5).random() == 1) {
+                        if (numTapsLemon == rndmTapNum) {
+                            numTapsLemon = 1
                             step++
+                        } else {
+                            numTapsLemon++
                         }
                     }
                 )
